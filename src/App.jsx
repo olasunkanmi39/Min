@@ -9,6 +9,9 @@ const PortfolioWebsite = () => {
     message: ''
   });
 
+
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxK91B0-FDbZHXcUVaKzZPLmj7nUC11lVUnRC-NAASM48XjMR0EBpzmam2pMhs4WLchQg/exec";
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setContactForm({
@@ -17,11 +20,44 @@ const PortfolioWebsite = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Thank you for your message! I will get back to you soon.');
-    setContactForm({ name: '', email: '', message: '' });
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   alert('Thank you for your message! I will get back to you soon.');
+  //   setContactForm({ name: '', email: '', message: '' });
+  // };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const formData = new FormData();
+    formData.append("name", contactForm.name);
+    formData.append("email", contactForm.email);
+    formData.append("message", contactForm.message);
+
+    const response = await fetch(SCRIPT_URL, {
+      method: "POST",
+      body: formData, // ✅ NO headers
+    });
+    if (!response.ok) {
+  throw new Error("Failed to send message");
+}
+
+    alert("Thank you for your message! I will get back to you soon.");
+
+    setContactForm({
+      name: "",
+      email: "",
+      message: "",
+    });
+
+  } catch (error) {
+    console.error(error);
+    alert("Message failed. Please try again.");
+  }
+};
+
+
 
   const skills = {
     software: [
@@ -242,6 +278,13 @@ const [isOpen, setIsOpen] = useState(false);
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Get In Touch</h2>
           
           <div className="flex flex-col lg:flex-row gap-12">
+
+
+
+
+
+
+
             {/* Contact Form */}
             <div className="lg:w-2/3">
               <div className="bg-white rounded-xl shadow-xl p-8">
@@ -324,7 +367,7 @@ const [isOpen, setIsOpen] = useState(false);
                     </div>
                     <div className="ml-4">
                       <h4 className="text-lg font-medium text-gray-800">Location</h4>
-                      <p className="text-gray-600 mt-1">New York, NY</p>
+                      <p className="text-gray-600 mt-1">Nigeria</p>
                     </div>
                   </div>
                   
@@ -336,7 +379,7 @@ const [isOpen, setIsOpen] = useState(false);
                     </div>
                     <div className="ml-4">
                       <h4 className="text-lg font-medium text-gray-800">Phone</h4>
-                      <p className="text-gray-600 mt-1">+1 (555) 123-4567</p>
+                      <p className="text-gray-600 mt-1">+234 703 429 4139</p>
                     </div>
                   </div>
                   
@@ -349,7 +392,7 @@ const [isOpen, setIsOpen] = useState(false);
                     </div>
                     <div className="ml-4">
                       <h4 className="text-lg font-medium text-gray-800">Email</h4>
-                      <p className="text-gray-600 mt-1">contact@developer-engineer.com</p>
+                      <p className="text-gray-600 mt-1">sunnysunkanmi@gmail.com</p>
                     </div>
                   </div>
                 </div>
